@@ -44,6 +44,7 @@ showButton.addEventListener("click", () => {
 
 closeButton.addEventListener("click", () => {
   dialog.querySelector("form").reset();
+  dialog.close();
 });
 
 addNewBookBtn.addEventListener("click", () => {
