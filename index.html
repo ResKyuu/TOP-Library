@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css" />
+    <title>TOP | Library</title>
+  </head>
+  <body>
+    <div class="table-container">
+      <dialog save>
+        <form method="dialog">
+          <h2>Add New Book</h2>
+          <label for="title">Title:</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            required
+            maxlength="100"
+            pattern="[A-Za-z0-9\s\-',.:!?]+"
+            title="Title can only contain letters, numbers, spaces, and basic punctuation (-',.:!?)."
+          />
+          <label for="author">Author:</label>
+          <input
+            type="text"
+            id="author"
+            name="author"
+            required
+            maxlength="100"
+            pattern="[A-Za-z\s\-'.]+"
+            title="Author can only contain letters, spaces, hyphens, apostrophes, and periods."
+          />
+          <label for="pages">Pages:</label>
+          <input type="number" id="pages" name="pages" required min="1" />
+
+          <div class="checkbox-container">
+            <label for="available">Available</label>
+            <input type="checkbox" id="available" name="available" />
+          </div>
+
+          <div class="form-buttons">
+            <button type="button" id="cancelBook">Cancel</button>
+            <button type="submit" id="confirmBook">Add Book</button>
+          </div>
+        </form>
+      </dialog>
+      <button class="addBookBtn" id="showBookDialog">Add New Book</button>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Pages</th>
+            <th>Available</th>
+          </tr>
+        </thead>
+        <tbody id="book-list">
+          <!-- Rows will be added here by script.js -->
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

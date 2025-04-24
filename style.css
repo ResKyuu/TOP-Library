@@ -1,0 +1,203 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  padding: 20px;
+  font-family: sans-serif;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 50px;
+}
+
+.table-container {
+  width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.addBookBtn {
+  padding: 10px 20px;
+  margin-bottom: 15px;
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  align-self: flex-end;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.addBookBtn:hover {
+  background-color: #f8f8f8;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+thead {
+  background-color: #4a90e2;
+  color: #000000;
+  font-weight: bold;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 5px;
+  overflow: hidden;
+  table-layout: fixed;
+}
+
+tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+tr:hover {
+  background-color: #e9ecef;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #dee2e6;
+  word-wrap: break-word;
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+  width: 20%;
+}
+th:nth-child(2),
+td:nth-child(2) {
+  width: 20%;
+}
+th:nth-child(3),
+td:nth-child(3) {
+  width: 20%;
+}
+th:nth-child(4),
+td:nth-child(4) {
+  width: 15%;
+}
+th:nth-child(5),
+td:nth-child(5) {
+  width: 15%;
+}
+
+dialog {
+  padding: 25px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  min-width: 350px;
+  max-width: 500px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+dialog form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+dialog label {
+  font-weight: normal;
+  color: #333;
+  display: block;
+}
+
+dialog .checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+dialog .checkbox-container label {
+  margin-bottom: 0;
+  order: -1;
+  font-weight: normal;
+  color: #333;
+}
+
+dialog input[type="text"],
+dialog input[type="number"],
+dialog select {
+  padding: 10px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  width: 100%;
+  font-size: 1em;
+}
+
+dialog input[type="checkbox"] {
+  width: 1.3em;
+  height: 1.3em;
+  cursor: pointer;
+  accent-color: #4a90e2;
+  margin: 0;
+  vertical-align: middle;
+}
+
+dialog button {
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  border: 1px solid #cccccc;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+dialog button#confirmBook {
+  background-color: #4a90e2;
+  color: white;
+  border-color: #4a90e2;
+}
+dialog button#confirmBook:hover {
+  background-color: #357abd;
+}
+
+dialog button#cancelBook {
+  background-color: #ffffff;
+  color: #6c757d;
+  border-color: #ced4da;
+}
+dialog button#cancelBook:hover {
+  background-color: #f8f9fa;
+  border-color: #adb5bd;
+}
+
+dialog .form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
