@@ -86,23 +86,38 @@ td {
 
 th:nth-child(1),
 td:nth-child(1) {
+  /* ID */
   width: 20%;
 }
 th:nth-child(2),
 td:nth-child(2) {
-  width: 20%;
+  /* Title */
+  width: 18%;
 }
 th:nth-child(3),
 td:nth-child(3) {
-  width: 20%;
+  /* Author */
+  width: 18%;
 }
 th:nth-child(4),
 td:nth-child(4) {
-  width: 15%;
+  /* Pages */
+  width: 12%;
 }
 th:nth-child(5),
 td:nth-child(5) {
-  width: 15%;
+  /* Available */
+  width: 12%;
+}
+th:nth-child(6), /* Edit Button Column */
+td:nth-child(6) {
+  width: 10%;
+  text-align: center; /* Center button */
+}
+th:nth-child(7), /* Delete Button Column */
+td:nth-child(7) {
+  width: 10%;
+  text-align: center; /* Center button */
 }
 
 dialog {
@@ -200,4 +215,104 @@ dialog .form-buttons {
   justify-content: flex-end;
   gap: 10px;
   margin-top: 15px;
+}
+
+/* Styles for dynamically added buttons */
+.editButton,
+.deleteButton {
+  padding: 6px 12px; /* Smaller padding for table buttons */
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: normal; /* Normal weight */
+  font-size: 0.9em; /* Slightly smaller font */
+  border: 1px solid transparent; /* Start with transparent border */
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.editButton {
+  background-color: #ffc107; /* Amber/Yellow */
+  color: #000000;
+  border-color: #ffc107;
+}
+
+.editButton:hover {
+  background-color: #e0a800; /* Darker amber */
+  border-color: #d39e00;
+}
+
+.deleteButton {
+  background-color: #dc3545; /* Red */
+  color: white;
+  border-color: #dc3545;
+}
+
+.deleteButton:hover {
+  background-color: #c82333; /* Darker red */
+  border-color: #bd2130;
+}
+
+/* --- Styles for dynamically added buttons in the table --- */
+
+/* Container cell for the buttons */
+td.action-buttons {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.editButton,
+.deleteButton {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 0 3px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.85em;
+  border: 1px solid #ced4da; /* Consistent light border */
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease; /* Smooth transitions */
+  vertical-align: middle;
+  line-height: 1.2;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+/* Edit Button Specifics - Using a neutral gray */
+.editButton {
+  background-color: #f8f9fa; /* Light gray, matches even rows */
+  color: #495057; /* Dark gray text */
+  border-color: #ced4da; /* Match default border */
+}
+
+.editButton:hover {
+  background-color: #e9ecef; /* Slightly darker gray on hover */
+  border-color: #adb5bd; /* Slightly darker border */
+}
+
+/* Delete Button Specifics - Keeping red */
+.deleteButton {
+  background-color: #ffa8b0; /* Lighter red background */
+  color: #721c24; /* Darker red text */
+  border-color: #75010d49; /* Lighter red border */
+}
+
+.deleteButton:hover {
+  background-color: #f1b0b7; /* Slightly darker red background */
+  border-color: #ec8c98; /* Slightly darker red border */
+  color: #721c24; /* Keep text color */
+}
+
+/* Focus styles for accessibility */
+.editButton:focus,
+.deleteButton:focus {
+  outline: 2px solid #80bdff; /* Lighter blue focus outline */
+  outline-offset: 1px;
+  box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25); /* Add focus shadow */
+}
+
+/* Remove previous hover styles with transform/shadow */
+.editButton:hover,
+.deleteButton:hover {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07); /* Keep shadow subtle on hover */
+  transform: none; /* Ensure no transform */
 }

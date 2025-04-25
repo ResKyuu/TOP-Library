@@ -35,6 +35,7 @@ function displayBooks(myLibrary) {
         ? document.createTextNode("Available")
         : document.createTextNode("Not Available")
     );
+    createButtons(newRow, Book.id);
   });
 }
 
@@ -43,6 +44,7 @@ showButton.addEventListener("click", () => {
 });
 
 closeButton.addEventListener("click", () => {
+  dialog.close();
   dialog.querySelector("form").reset();
 });
 
@@ -84,7 +86,45 @@ addNewBookBtn.addEventListener("click", () => {
       ? document.createTextNode("Available")
       : document.createTextNode("Not Available")
   );
-
+  createButtons(newRow, uniqueID);
   form.reset();
   dialog.close();
 });
+
+function createButtons(row, bookId) {
+  const editBook = row.insertCell();
+  const deleteBook = row.insertCell();
+
+  const editButton = document.createElement("button");
+  editButton.classList.add("editButton");
+  editButton.textContent = "Edit";
+
+  const deleteButton = document.createElement("button");
+  deleteButton.classList.add("deleteButton");
+  deleteButton.textContent = "Delete";
+
+  editBook.appendChild(editButton);
+  deleteBook.appendChild(deleteButton);
+
+  editButton.addEventListener("click", () => {
+    console.log("Edit button clicked for row:", bookId);
+  });
+
+  deleteButton.addEventListener("click", () => {
+    row.remove(-1);
+    const bookLibraryIndex = myLibrary.findIndex((Book) => {
+      if (Book.id === bookId) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    console.log(bookLibraryIndex);
+    myLibrary.splice(bookLibraryIndex, 1);
+  });
+}
+
+addBookToLibrary(crypto.randomUUID(), "test", "test", 20, true);
+addBookToLibrary(crypto.randomUUID(), "test", "test", 20, true);
+addBookToLibrary(crypto.randomUUID(), "test", "test", 20, true);
+displayBooks(myLibrary);
