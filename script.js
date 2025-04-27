@@ -30,6 +30,7 @@ function addBookToLibrary(id, title, author, pages, available) {
 
 //Function to display all Books on page load, which exist in the Library Array
 function displayBooks(myLibrary) {
+  tbody.innerHTML = "";
   myLibrary.forEach((Book) => {
     const newRow = tbody.insertRow();
     const bookID = newRow.insertCell();
@@ -60,6 +61,10 @@ showButton.addEventListener("click", () => {
 //Event Listener for 'Cancel" Button
 //Closes dialog on "Cancel" button click
 closeButton.addEventListener("click", () => {
+  if (editMode === true) {
+    editMode = false;
+    console.log("editMode deactivated");
+  }
   dialog.close();
   dialog.querySelector("form").reset();
 });
@@ -77,15 +82,7 @@ addNewBookBtn.addEventListener("click", () => {
     form.reportValidity();
     return;
   }
-
   if (editMode == false) {
-    const newRow = tbody.insertRow();
-    const bookID = newRow.insertCell();
-    const bookTitle = newRow.insertCell();
-    const bookAuthor = newRow.insertCell();
-    const bookPages = newRow.insertCell();
-    const bookavailable = newRow.insertCell();
-
     const uniqueID = crypto.randomUUID();
     addBookToLibrary(
       uniqueID,
@@ -94,22 +91,13 @@ addNewBookBtn.addEventListener("click", () => {
       pages.value,
       availableRef.checked
     );
-
-    bookID.appendChild(document.createTextNode(uniqueID));
-    bookTitle.appendChild(document.createTextNode(titleRef.value));
-    bookAuthor.appendChild(document.createTextNode(authorRef.value));
-    bookPages.appendChild(document.createTextNode(pagesRef.value));
-    console.log(bookavailable.value);
-    bookavailable.appendChild(
-      availableRef.checked
-        ? document.createTextNode("Available")
-        : document.createTextNode("Not Available")
-    );
-    createButtons(newRow, uniqueID);
+    displayBooks(myLibrary);
     form.reset();
     dialog.close();
   } else {
     editBook(titleRef, authorRef, pagesRef, availableRef);
+    displayBooks(myLibrary);
+    currentBookId = "";
     form.reset();
     dialog.close();
   }
@@ -133,6 +121,25 @@ function createButtons(row, bookId) {
 
   //Event Listener for "Edit" Button
   editButton.addEventListener("click", () => {
+    const form = dialog.querySelector("form");
+    const titleRef = document.querySelector("#title");
+    const authorRef = document.querySelector("#author");
+    const pagesRef = document.querySelector("#pages");
+    const availableRef = document.querySelector("#available");
+
+    const bookLibraryIndex = myLibrary.findIndex((Book) => {
+      if (Book.id === bookId) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    titleRef.value = myLibrary[bookLibraryIndex].title;
+    authorRef.value = myLibrary[bookLibraryIndex].author;
+    pagesRef.value = myLibrary[bookLibraryIndex].pages;
+    availableRef.checked = myLibrary[bookLibraryIndex].available;
+    console.log(bookLibraryIndex);
+
     //${row.cells[1].textContent} = Title | ${row.cells[2].textContent} = Author
     dialogHeader.innerHTML = `Edit Book ${row.cells[1].textContent} by ${row.cells[2].textContent}`;
     editMode = true;
@@ -144,7 +151,6 @@ function createButtons(row, bookId) {
   //Event Listener for "Delete" Button
   //Delete Table row and Library Array entry
   deleteButton.addEventListener("click", () => {
-    row.remove(-1);
     const bookLibraryIndex = myLibrary.findIndex((Book) => {
       if (Book.id === bookId) {
         return true;
@@ -153,26 +159,28 @@ function createButtons(row, bookId) {
       }
     });
     myLibrary.splice(bookLibraryIndex, 1);
+    displayBooks(myLibrary);
   });
 }
 
-addBookToLibrary(crypto.randomUUID(), "test", "test", 20, true);
-addBookToLibrary(crypto.randomUUID(), "test", "test", 20, true);
-addBookToLibrary(crypto.randomUUID(), "test", "test", 20, true);
-displayBooks(myLibrary);
-
 function editBook(title, author, pages, availability) {
-  for (const row of tbody.rows) {
-    if (row.cells[0].textContent == currentBookId) {
-      row.cells[1].innerHTML = title.value;
-      row.cells[2].innerHTML = author.value;
-      row.cells[3].innerHTML = pages.value;
-      row.cells[4].innerHTML = availability.checked
-        ? "Available"
-        : "Not Available";
+  const bookLibraryIndex = myLibrary.findIndex((Book) => {
+    if (Book.id === currentBookId) {
+      return true;
+    } else {
+      return false;
     }
-  }
-  //to be done, find the array entry and give it the new values
+  });
+  myLibrary[bookLibraryIndex].title = title.value;
+  myLibrary[bookLibraryIndex].author = author.value;
+  myLibrary[bookLibraryIndex].pages = pages.value;
+  myLibrary[bookLibraryIndex].available = availability.checked;
+  console.log(myLibrary);
   editMode = false;
   console.log("Edit Mode deactivated");
 }
+
+addBookToLibrary(crypto.randomUUID(), "Book 1", "reskyuu", 20, true);
+addBookToLibrary(crypto.randomUUID(), "Book 2", "reskyuu ", 25, true);
+addBookToLibrary(crypto.randomUUID(), "Book 3", "reskyuu", 30, false);
+displayBooks(myLibrary);
