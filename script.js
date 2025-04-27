@@ -88,7 +88,7 @@ addNewBookBtn.addEventListener("click", () => {
       uniqueID,
       titleRef.value,
       authorRef.value,
-      pages.value,
+      pagesRef.value,
       availableRef.checked
     );
     displayBooks(myLibrary);
@@ -98,6 +98,7 @@ addNewBookBtn.addEventListener("click", () => {
     editBook(titleRef, authorRef, pagesRef, availableRef);
     displayBooks(myLibrary);
     currentBookId = "";
+    editMode = false;
     form.reset();
     dialog.close();
   }
@@ -121,7 +122,6 @@ function createButtons(row, bookId) {
 
   //Event Listener for "Edit" Button
   editButton.addEventListener("click", () => {
-    const form = dialog.querySelector("form");
     const titleRef = document.querySelector("#title");
     const authorRef = document.querySelector("#author");
     const pagesRef = document.querySelector("#pages");
@@ -141,7 +141,7 @@ function createButtons(row, bookId) {
     console.log(bookLibraryIndex);
 
     //${row.cells[1].textContent} = Title | ${row.cells[2].textContent} = Author
-    dialogHeader.innerHTML = `Edit Book ${row.cells[1].textContent} by ${row.cells[2].textContent}`;
+    dialogHeader.innerHTML = `Edit Book ${myLibrary[bookLibraryIndex].title} by ${myLibrary[bookLibraryIndex].author}`;
     editMode = true;
     console.log("editMode Activated");
     currentBookId = bookId;
@@ -176,7 +176,6 @@ function editBook(title, author, pages, availability) {
   myLibrary[bookLibraryIndex].pages = pages.value;
   myLibrary[bookLibraryIndex].available = availability.checked;
   console.log(myLibrary);
-  editMode = false;
   console.log("Edit Mode deactivated");
 }
 
