@@ -13,23 +13,37 @@ const dialogHeader = document.getElementById("dialogHeader");
 let editMode = false;
 let currentBookId;
 
+class Book {
+  //Constructor for all Books
+  constructor(id, title, author, pages, available) {
+    this.id = id;
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.available = available;
+  }
+}
+
 //Constructor for all Books
-function Book(id, title, author, pages, available) {
+/*function Book(id, title, author, pages, available) {
   this.id = id;
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.available = available;
 }
+  */
 
 //Function to add all Books to the Library
+
 function addBookToLibrary(id, title, author, pages, available) {
   const newBook = new Book(id, title, author, pages, available);
   myLibrary.push(newBook);
 }
+  
 
 //Function to display all Books on page load, which exist in the Library Array
-function displayBooks(myLibrary) {
+ function displayBooks(myLibrary) {
   tbody.innerHTML = "";
   myLibrary.forEach((Book) => {
     const newRow = tbody.insertRow();
