@@ -10,7 +10,7 @@
   <body>
     <div class="table-container">
       <dialog save>
-        <form method="dialog">
+        <form method="dialog" novalidate>
           <h2 id="dialogHeader"></h2>
           <label for="title">Title:</label>
           <input
@@ -18,22 +18,25 @@
             id="title"
             name="title"
             required
+            minlength="5"
             maxlength="100"
             pattern="[A-Za-z0-9\s\-',.:!?]+"
-            title="Title can only contain letters, numbers, spaces, and basic punctuation (-',.:!?)."
           />
+          <span class="error" aria-live="polite"></span>
           <label for="author">Author:</label>
           <input
             type="text"
             id="author"
             name="author"
             required
+            minlength="5"
             maxlength="100"
             pattern="[A-Za-z\s\-'.]+"
-            title="Author can only contain letters, spaces, hyphens, apostrophes, and periods."
           />
+          <span class="error" aria-live="polite"></span>
           <label for="pages">Pages:</label>
           <input type="number" id="pages" name="pages" required min="1" />
+          <span class="error" aria-live="polite"></span>
 
           <div class="checkbox-container">
             <label for="available">Available</label>

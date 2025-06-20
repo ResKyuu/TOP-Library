@@ -9,6 +9,16 @@ const closeButton = document.querySelector("#cancelBook");
 const addNewBookBtn = document.querySelector("#confirmBook");
 const dialogHeader = document.getElementById("dialogHeader");
 
+const forms = document.querySelectorAll("form");
+const titleError = document.querySelector("#title + span.error");
+const authorError = document.querySelector("#author + span.error");
+const pagesError = document.querySelector("#pages + span.error");
+const title = document.querySelector("#title");
+const author = document.querySelector("#author");
+const pages = document.querySelector("#pages");
+let inputArray = [title, author, pages];
+let errorArray = [titleError, authorError, pagesError];
+
 //Global variables needed to edit books
 let editMode = false;
 let currentBookId;
@@ -40,10 +50,9 @@ function addBookToLibrary(id, title, author, pages, available) {
   const newBook = new Book(id, title, author, pages, available);
   myLibrary.push(newBook);
 }
-  
 
 //Function to display all Books on page load, which exist in the Library Array
- function displayBooks(myLibrary) {
+function displayBooks(myLibrary) {
   tbody.innerHTML = "";
   myLibrary.forEach((Book) => {
     const newRow = tbody.insertRow();
@@ -69,6 +78,7 @@ function addBookToLibrary(id, title, author, pages, available) {
 //Shows Dialog on click of "Add New Book" button
 showButton.addEventListener("click", () => {
   dialogHeader.innerHTML = "Add New Book";
+  clearErrors();
   dialog.showModal();
 });
 
@@ -79,43 +89,52 @@ closeButton.addEventListener("click", () => {
     editMode = false;
     console.log("editMode deactivated");
   }
+  clearErrors();
   dialog.close();
   dialog.querySelector("form").reset();
 });
 
 //Event Listener for the "Confirm" Button
 //On "Confirm" button click of Dialog, Adds/Edits New Book to the Library and displays it
-addNewBookBtn.addEventListener("click", () => {
-  const form = dialog.querySelector("form");
-  const titleRef = document.querySelector("#title");
-  const authorRef = document.querySelector("#author");
-  const pagesRef = document.querySelector("#pages");
-  const availableRef = document.querySelector("#available");
+forms.forEach((form) => {
+  form.addEventListener("submit", (event) => {
+    let valid = true;
+    inputArray.forEach((input, idx) => {
+      if (!input.validity.valid) {
+        showError(input, errorArray[idx]);
+        valid = false;
+      }
+    });
+    if (!valid) {
+      event.preventDefault();
+      return;
+    }
 
-  if (!form.checkValidity()) {
-    form.reportValidity();
-    return;
-  }
-  if (editMode == false) {
-    const uniqueID = crypto.randomUUID();
-    addBookToLibrary(
-      uniqueID,
-      titleRef.value,
-      authorRef.value,
-      pagesRef.value,
-      availableRef.checked
-    );
+    // Handle add/edit logic here
+    const titleRef = title;
+    const authorRef = author;
+    const pagesRef = pages;
+    const availableRef = document.querySelector("#available");
+
+    if (!editMode) {
+      const uniqueID = crypto.randomUUID();
+      addBookToLibrary(
+        uniqueID,
+        titleRef.value,
+        authorRef.value,
+        pagesRef.value,
+        availableRef.checked
+      );
+    } else {
+      editBook(titleRef, authorRef, pagesRef, availableRef);
+      currentBookId = "";
+      editMode = false;
+    }
     displayBooks(myLibrary);
     form.reset();
     dialog.close();
-  } else {
-    editBook(titleRef, authorRef, pagesRef, availableRef);
-    displayBooks(myLibrary);
-    currentBookId = "";
-    editMode = false;
-    form.reset();
-    dialog.close();
-  }
+    event.preventDefault(); // Prevent default dialog close
+  });
 });
 
 //Function to Create the "Edit" & "Delete" button to all Books in Table
@@ -159,6 +178,7 @@ function createButtons(row, bookId) {
     editMode = true;
     console.log("editMode Activated");
     currentBookId = bookId;
+    clearErrors();
     dialog.showModal();
   });
 
@@ -191,6 +211,53 @@ function editBook(title, author, pages, availability) {
   myLibrary[bookLibraryIndex].available = availability.checked;
   console.log(myLibrary);
   console.log("Edit Mode deactivated");
+}
+
+inputArray.forEach((inputType, index) => {
+  inputType.addEventListener("input", (event) => {
+    if (inputType.validity.valid) {
+      errorArray[index].textContent = "";
+      errorArray[index].className = "error";
+    } else {
+      showError(inputType, errorArray[index]);
+    }
+  });
+});
+
+function showError(inputType, errorType) {
+  if (inputType === title) {
+    if (title.validity.valueMissing) {
+      errorType.textContent = "Please enter a title.";
+    } else if (title.validity.tooShort) {
+      errorType.textContent = `Title must be at least ${title.minLength} characters; you entered ${title.value.length}.`;
+    } else if (title.validity.patternMismatch) {
+      errorType.textContent =
+        "Title can only contain letters, spaces, hyphens, apostrophes, and periods.";
+    }
+  } else if (inputType === author) {
+    if (author.validity.valueMissing) {
+      errorType.textContent = "Please enter an author.";
+    } else if (author.validity.tooShort) {
+      errorType.textContent = `Author must be at least ${author.minLength} characters; you entered ${author.value.length}.`;
+    } else if (author.validity.patternMismatch) {
+      errorType.textContent =
+        "Author can only contain letters, spaces, hyphens, apostrophes, and periods.";
+    }
+  } else if (inputType === pages) {
+    if (pages.validity.valueMissing) {
+      errorType.textContent = "Please enter the number of pages.";
+    } else if (pages.validity.rangeUnderflow) {
+      errorType.textContent = `The number of pages must be at least ${pages.min}.`;
+    }
+  }
+  errorType.className = "error active";
+}
+
+function clearErrors() {
+  errorArray.forEach((errorSpan) => {
+    errorSpan.textContent = "";
+    errorSpan.className = "error";
+  });
 }
 
 addBookToLibrary(crypto.randomUUID(), "Book 1", "reskyuu", 20, true);

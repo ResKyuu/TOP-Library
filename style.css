@@ -217,6 +217,22 @@ dialog .form-buttons {
   margin-top: 15px;
 }
 
+/* --- Validation Error Styling --- */
+.error {
+  /* The span is empty and takes no space by default */
+  font-size: 0.875em; /* 14px if base is 16px */
+  color: #c82333; /* A strong, clear red */
+  font-weight: 500;
+  display: none; /* Hide it until it gets the 'active' class */
+  margin-top: -12px; /* Pulls the message closer to the input field */
+  margin-bottom: 4px; /* Adds a bit of space before the next form element */
+  padding-left: 2px; /* Aligns text slightly with the input's text */
+}
+
+.error.active {
+  display: block; /* Makes the error message visible */
+}
+
 /* Styles for dynamically added buttons */
 .editButton,
 .deleteButton {
